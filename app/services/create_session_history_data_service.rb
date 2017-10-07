@@ -66,7 +66,7 @@ class CreateSessionHistoryDataService
     history.update!(
       started_by: line[columns_map[:started_by]],
       created_at: line[columns_map[:created_at]],
-      summary_status: line[columns_map[:summary_status]],
+      summary_status: History::SUMMARY_STATUS_TO_CODE[line[columns_map[:summary_status]]],
       duration: line[columns_map[:duration]],
       worker_time: line[columns_map[:worker_time]],
       bundle_time: line[columns_map[:bundle_time]],
