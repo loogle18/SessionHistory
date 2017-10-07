@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: session_history_development
+  pool: 5
+  username: session_history
+  password:
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: session_history_test
+  pool: 5
+  username: session_history
+  password:
