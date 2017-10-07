@@ -1,5 +1,40 @@
-<ul>
+<table>
+  <tr>
+    <th>session_id</th>
+    <th>started_by</th>
+    <th>created_at</th>
+    <th>summary_status</th>
+    <th>duration</th>
+    <th>worker_time</th>
+    <th>bundle_time</th>
+    <th>num_workers</th>
+    <th>branch</th>
+    <th>commit_id</th>
+    <th>started_tests_count</th>
+    <th>passed_tests_count</th>
+    <th>failed_tests_count</th>
+    <th>pending_tests_count</th>
+    <th>skipped_tests_count</th>
+    <th>error_tests_count</th>
+  </tr>
   <% @histories.each do |history| %>
-    <li><%= history.session_id %></li>
+    <tr>
+      <td><%= history.session_id %></td>
+      <td><%= history.started_by %></td>
+      <td><%= history.created_at %></td>
+      <td><%= history.summary_status %></td>
+      <td><%= history.duration %></td>
+      <td><%= history.worker_time %></td>
+      <td><%= history.bundle_time %></td>
+      <td><%= history.num_workers %></td>
+      <td><%= history.branch %></td>
+      <td><%= history.commit_id %></td>
+      <td><%= history.test_count.started %></td>
+      <td><%= history.test_count.passed %></td>
+      <td><%= history.test_count.failed %></td>
+      <td><%= history.test_count.pending %></td>
+      <td><%= history.test_count.skipped %></td>
+      <td><%= history.test_count.error %></td>
+    </tr>
   <% end %>
-</h1>
+</table>
