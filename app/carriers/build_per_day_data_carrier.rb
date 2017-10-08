@@ -16,6 +16,7 @@ class BuildPerDayDataCarrier
 
       if data[day]
         data[day][:date] = day
+        data[day][:duration] = histories_array.sum(&:duration)
         data[day][:passed] = statuses_array.count(passed)
         data[day][:stopped] = statuses_array.count(stopped)
         data[day][:failed] = statuses_array.count(failed)
@@ -23,6 +24,7 @@ class BuildPerDayDataCarrier
       else
         data[day] = {
           date: day,
+          duration: histories_array.sum(&:duration),
           passed: statuses_array.count(passed),
           stopped: statuses_array.count(stopped),
           failed: statuses_array.count(failed),
