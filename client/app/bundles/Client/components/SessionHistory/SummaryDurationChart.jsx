@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush} from 'recharts';
 
 class SummaryDurationChart extends Component {
   static propTypes = {
@@ -8,16 +8,15 @@ class SummaryDurationChart extends Component {
 
   render() {
     return (
-      <div>
-        <BarChart width={980} height={640} data={this.props.data}>
-          <XAxis dataKey='date' />
-          <YAxis />
-          <CartesianGrid strokeDasharray='3 3' />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey='duration' name='Summary duration' fill='#27a0b6' />
-        </BarChart>
-      </div>
+      <BarChart width={1200} height={640} data={this.props.data}>
+        <XAxis dataKey='date'/>
+        <YAxis/>
+        <CartesianGrid strokeDasharray='3 3'/>
+        <Tooltip/>
+        <Legend/>
+        <Bar dataKey='duration' name='Summary duration' fill='#27a0b6'/>
+        <Brush dataKey='date' height={25} stroke="#27a0b6"/>
+      </BarChart>
     );
   };
 };

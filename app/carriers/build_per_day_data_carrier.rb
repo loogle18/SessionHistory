@@ -37,6 +37,6 @@ class BuildPerDayDataCarrier
   private
 
   def histories_grouped_by_day
-    histories.group_by{ |history| history.created_at.strftime("%Y-%m-%d") }
+    histories.group_by{ |history| history.created_at.strftime("%d.%m.%y") }
   end
 end
