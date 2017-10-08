@@ -7,7 +7,6 @@ git_source(:github) do |repo_name|
 end
 
 gem 'rails', '~> 5.1.4'
-gem 'jbuilder'
 
 gem 'pg'
 

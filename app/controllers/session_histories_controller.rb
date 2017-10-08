@@ -4,7 +4,8 @@ class SessionHistoriesController < ApplicationController
   before_action :load_sample_data_if_needed, only: :index
 
   def index
-    @histories = History.includes(:test_count).ordered_by_session_id
+    histories = History.ordered_asc_by_create_at
+    @builds_per_day = BuildPerDayDataCarrier.new(histories).get_builds_per_day_data
   end
 
   def load_sample_data_if_needed

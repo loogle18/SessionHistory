@@ -22,7 +22,7 @@ class History < ApplicationRecord
 
   has_one :test_count, dependent: :destroy
 
-  scope :ordered_by_session_id, -> { order(session_id: :desc) }
+  scope :ordered_asc_by_create_at, -> { order(created_at: :asc) }
 
   def summary_status_name
     SUMMARY_STATUS_CODE_TO_NAME[summary_status]
