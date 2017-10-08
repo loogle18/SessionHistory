@@ -25,3 +25,5 @@ group :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'mocha'
 end
+
+gem 'mini_racer', platforms: :ruby

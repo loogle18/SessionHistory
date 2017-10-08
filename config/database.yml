@@ -1,15 +1,18 @@
-development:
+default: &default
   adapter: postgresql
   encoding: unicode
-  database: session_history_development
   pool: 5
   username: session_history
   password:
 
+development:
+  <<: *default
+  database: session_history_development
+
 test:
-  adapter: postgresql
-  encoding: unicode
+  <<: *default
   database: session_history_test
-  pool: 5
-  username: session_history
-  password:
+
+production:
+  <<: *default
+  database: session_history_production

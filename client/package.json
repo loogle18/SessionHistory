@@ -1,0 +1,59 @@
+{
+  "name": "react-webpack-rails-tutorial",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": "6.9.0",
+    "npm": "4.1.1",
+    "yarn": "^0.21"
+  },
+  "jest": {
+    "verbose": true,
+    "moduleNameMapper": {
+      "^.*\\.scss$": "<rootDir>SCSSStub.js"
+    }
+  },
+  "scripts": {
+    "prestart": "next build",
+    "test": "jest",
+    "build:production": "NODE_ENV=production webpack --config webpack.config.js",
+    "build:development": "webpack -w --config webpack.config.js"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
+  "dependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "babel-runtime": "^6.23.0",
+    "css-loader": "^0.25.0",
+    "es5-shim": "^4.5.9",
+    "expose-loader": "^0.7.3",
+    "imports-loader": "^0.7.1",
+    "node-sass": "^4.5.3",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-on-rails": "6.9.1",
+    "react-router": "^2.4.0",
+    "react-tap-event-plugin": "^2.0.0",
+    "recharts": "^1.0.0-apha.5",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-jest": "^20.0.3",
+    "chai": "^3.5.0",
+    "enzyme": "^2.4.1",
+    "jest": "^20.0.4",
+    "mocha-webpack": "^0.4.0",
+    "react-test-renderer": "^15.6.1",
+    "regenerator-runtime": "^0.10.5"
+  }
+}
