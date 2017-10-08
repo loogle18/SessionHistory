@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
+require 'csv'
+
 class CreateSessionHistoryDataService
-  REDUNDANT_SYMBOLS = '\"'
+  CSV_EXTENSION = '.csv'
   CSV_SAMPLE_DATA_FILE = Rails.root.join('lib', 'sample_data', 'csv', 'session_history.csv').freeze
   SESSION_ID_COLUMN_NAME = 'session_id'
   DEFAULT_COLUMNS_MAP = {
@@ -29,36 +33,40 @@ class CreateSessionHistoryDataService
 
   def perform
     histories = []
-    opened_file = File.open(csv_file)
-    columns_map = get_columns_map_from(opened_file.first)
 
-    opened_file.each_line do |line|
-      formatted_line = get_formatted_array(line)
+    return unless csv_file.exist? && File.extname(csv_file) == CSV_EXTENSION
+
+    opened_file = CSV.open(csv_file)
+    columns_map = get_columns_map_from(opened_file)
+
+    opened_file.readlines.each do |formatted_line|
       history = create_history(formatted_line, columns_map)
       history.create_test_count!(
         get_test_count_attributes(formatted_line, columns_map)
       ) unless history.test_count
       histories << history
-    end.close
+    end
+
+    opened_file.close
 
     histories
   end
 
   private
 
-  def get_columns_map_from(first_line)
+  def get_columns_map_from(file)
+    first_line = file.first
+
     # Check if it's line of columns' names. Presence of one of them is enough to be sure for most cases.
     if first_line.include?(SESSION_ID_COLUMN_NAME)
       order_map = {}
-      get_formatted_array(first_line).each_with_index { |field, index| order_map[field.to_sym] = index }
+      first_line.each_with_index { |field, index| order_map[field.to_sym] = index }
       order_map
     else
+      file.rewind # Restore to read from first line again.
+
       DEFAULT_COLUMNS_MAP
     end
-  end
-
-  def get_formatted_array(line)
-    line.chomp.tr(REDUNDANT_SYMBOLS, '').split(',')
   end
 
   def create_history(line, columns_map)
