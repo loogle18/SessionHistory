@@ -7,7 +7,7 @@ class SummaryStatusChart extends Component {
   };
 
   render() {
-    return (
+    return(
       <BarChart width={1200} height={640} data={this.props.data}>
        <XAxis dataKey='date'/>
        <YAxis/>

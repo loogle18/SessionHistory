@@ -1,0 +1,11 @@
+.noDataText {
+  $padding: 25px;
+
+  align-items: center;
+  display: flex;
+  font-size: 26px;
+  height: calc(100vh - #{$padding * 2});
+  justify-content: center;
+  padding: $padding;
+  text-align: center;
+}
