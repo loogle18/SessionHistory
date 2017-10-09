@@ -22,9 +22,15 @@ class SessionHistory extends Component {
     return(
       <div>
         <SummaryStatusChart data={data}/>
-        <p className={css.abnormalBuildsDescription}>
-          Day has abnormal failed builds if failed and error build count is make 50% or more from all builds count.
-        </p>
+        <div className={css.abnormalBuildsDescription}>
+          Day has abnormal failed builds if failed and error build count
+          is make 50% or more from all builds count.
+          <p>
+            Date in the chart above that has abnormal failed builds are filled in
+            <span style={{color: '#dd275a'}}> red </span>
+            color.
+          </p>
+        </div>
         <SummaryDurationChart data={data}/>
       </div>
     );
