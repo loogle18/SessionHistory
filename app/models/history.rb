@@ -13,18 +13,7 @@ class History < ApplicationRecord
     ERROR_STATUS => 3
   }.freeze
 
-  SUMMARY_STATUS_CODE_TO_NAME = {
-    0 => PASSED_STATUS,
-    1 => STOPPED_STATUS,
-    2 => FAILED_STATUS,
-    3 => ERROR_STATUS
-  }.freeze
-
   has_one :test_count, dependent: :destroy
 
   scope :ordered_asc_by_create_at, -> { order(created_at: :asc) }
-
-  def summary_status_name
-    SUMMARY_STATUS_CODE_TO_NAME[summary_status]
-  end
 end
