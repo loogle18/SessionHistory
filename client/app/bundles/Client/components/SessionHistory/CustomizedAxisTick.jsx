@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 class CustomizedAxisTick extends Component {
   propTypes: {
+    x: PropTypes.number,
+    y: PropTypes.number,
+    payload: PropTypes.array,
     data: PropTypes.object
   };
 
@@ -20,7 +23,7 @@ class CustomizedAxisTick extends Component {
   }
 
   render() {
-    const { x, y, stroke, payload } = this.props,
+    const { x, y, payload } = this.props,
           fillColor = this.state.isAbnormal ? '#dd275a' : '#666666'
 
     return (
