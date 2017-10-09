@@ -16,13 +16,7 @@ class CreateSessionHistoryDataService
     bundle_time: 6,
     num_workers: 7,
     branch: 8,
-    commit_id: 9,
-    started_tests_count: 10,
-    passed_tests_count: 11,
-    failed_tests_count: 12,
-    pending_tests_count: 13,
-    skipped_tests_count: 14,
-    error_tests_count: 15
+    commit_id: 9
   }.freeze
 
   attr_reader :csv_file
@@ -40,11 +34,7 @@ class CreateSessionHistoryDataService
     columns_map = get_columns_map_from(opened_file)
 
     opened_file.readlines.each do |formatted_line|
-      history = create_history(formatted_line, columns_map)
-      history.create_test_count!(
-        get_test_count_attributes(formatted_line, columns_map)
-      ) unless history.test_count
-      histories << history
+      histories << create_history(formatted_line, columns_map)
     end
 
     opened_file.close
@@ -83,16 +73,5 @@ class CreateSessionHistoryDataService
       commit_id: line[columns_map[:commit_id]]
     )
     history
-  end
-
-  def get_test_count_attributes(line, columns_map)
-    {
-      started: line[columns_map[:started_tests_count]],
-      passed: line[columns_map[:passed_tests_count]],
-      failed: line[columns_map[:failed_tests_count]],
-      pending: line[columns_map[:pending_tests_count]],
-      skipped: line[columns_map[:skipped_tests_count]],
-      error: line[columns_map[:error_tests_count]]
-    }
   end
 end

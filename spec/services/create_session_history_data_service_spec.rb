@@ -9,7 +9,6 @@ describe CreateSessionHistoryDataService do
       described_class.new.perform
 
       expect(History.count).to eq(108)
-      expect(TestCount.count).to eq(108)
     end
 
     it 'loads data from sample given csv_file and creates histories instances' do
@@ -20,7 +19,6 @@ describe CreateSessionHistoryDataService do
       described_class.new(file).perform
 
       expect(History.count).to eq(3)
-      expect(TestCount.count).to eq(3)
     end
 
     it 'loads data from sample given csv_file and creates histories instances even it has no header' do
@@ -31,7 +29,6 @@ describe CreateSessionHistoryDataService do
       described_class.new(file).perform
 
       expect(History.count).to eq(3)
-      expect(TestCount.count).to eq(3)
     end
 
     it 'breakes perform if given file does not exist' do

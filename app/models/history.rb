@@ -13,7 +13,5 @@ class History < ApplicationRecord
     ERROR_STATUS => 3
   }.freeze
 
-  has_one :test_count, dependent: :destroy
-
   scope :ordered_asc_by_create_at, -> { order(created_at: :asc) }
 end
