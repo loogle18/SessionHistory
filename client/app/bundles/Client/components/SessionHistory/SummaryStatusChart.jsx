@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush } from 'recharts';
 
+import CustomTooltip from './CustomTooltip'
+
 class SummaryStatusChart extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.object)
@@ -12,7 +14,7 @@ class SummaryStatusChart extends Component {
         <XAxis dataKey='date'/>
         <YAxis/>
         <CartesianGrid strokeDasharray='3 3'/>
-        <Tooltip/>
+        <Tooltip content={<CustomTooltip/>}/>
         <Legend/>
         <Bar dataKey='passed' name='Passed' stackId='a' fill='#42c88a'/>
         <Bar dataKey='stopped' name='Stopped' stackId='a' fill='#898989'/>

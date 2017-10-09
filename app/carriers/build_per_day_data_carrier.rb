@@ -13,6 +13,9 @@ class BuildPerDayDataCarrier
 
     histories_grouped_by_day.each_with_object({}) do |(day, histories_array), data|
       statuses_array = histories_array.pluck(:summary_status)
+      is_abnormal = calculate_is_abnormal(statuses_array.count(failed),
+                                          statuses_array.count(error),
+                                          statuses_array.count)
 
       if data[day]
         data[day][:date] = day
@@ -21,6 +24,7 @@ class BuildPerDayDataCarrier
         data[day][:stopped] = statuses_array.count(stopped)
         data[day][:failed] = statuses_array.count(failed)
         data[day][:error] = statuses_array.count(error)
+        data[day][:is_abnormal] = is_abnormal
       else
         data[day] = {
           date: day,
@@ -28,13 +32,18 @@ class BuildPerDayDataCarrier
           passed: statuses_array.count(passed),
           stopped: statuses_array.count(stopped),
           failed: statuses_array.count(failed),
-          error: statuses_array.count(error)
+          error: statuses_array.count(error),
+          is_abnormal: is_abnormal
         }
       end
     end.values
   end
 
   private
+
+  def calculate_is_abnormal(failed, error, count)
+    (Float(failed) + Float(error)) / count >= 0.5
+  end
 
   def histories_grouped_by_day
     histories.group_by{ |history| history.created_at.strftime("%d.%m.%y") }

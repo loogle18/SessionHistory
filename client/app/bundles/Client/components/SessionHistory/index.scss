@@ -9,3 +9,31 @@
   padding: $padding;
   text-align: center;
 }
+
+.abnormalBuildsDescription {
+  color: #898989;
+  padding: 6px 20px;
+  text-align: center;
+}
+
+.customTooltip {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  padding: 10px;
+}
+
+.labelPassed {
+  color: #42c88a;
+}
+
+.labelStopped {
+  color: #898989;
+}
+
+.labelFailed {
+  color: #dd275a;
+}
+
+.labelError {
+  color: #212121;
+}

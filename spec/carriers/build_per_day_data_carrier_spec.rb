@@ -19,8 +19,8 @@ describe BuildPerDayDataCarrier do
 
     method_result = described_class.new(History.ordered_asc_by_create_at).get_builds_per_day_data
     expected_result = [
-      { date: '10.09.14', duration: 853.261, passed: 2, stopped: 1, failed: 1, error: 0 },
-      { date: '27.10.14', duration: 701.0, passed: 0, stopped: 0, failed: 0, error: 2 }
+      { date: '10.09.14', duration: 853.261, passed: 2, stopped: 1, failed: 1, error: 0, is_abnormal: false },
+      { date: '27.10.14', duration: 701.0, passed: 0, stopped: 0, failed: 0, error: 2, is_abnormal: true }
     ]
 
     expect(method_result).to eq(expected_result)

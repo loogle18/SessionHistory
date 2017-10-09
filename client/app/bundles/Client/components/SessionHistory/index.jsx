@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import SummaryStatusChart from './SummaryStatusChart';
 import SummaryDurationChart from './SummaryDurationChart';
+
 import css from './index.scss';
 
 class SessionHistory extends Component {
@@ -21,6 +22,9 @@ class SessionHistory extends Component {
     return(
       <div>
         <SummaryStatusChart data={data}/>
+        <p className={css.abnormalBuildsDescription}>
+          Day has abnormal failed builds if failed and error build count is make 50% or more from all builds count.
+        </p>
         <SummaryDurationChart data={data}/>
       </div>
     );
