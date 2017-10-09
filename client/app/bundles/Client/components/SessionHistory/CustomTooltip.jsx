@@ -4,7 +4,7 @@ import css from './index.scss';
 
 class CustomTooltip extends Component {
   propTypes: {
-    type: PropTypes.string,
+    active: PropTypes.bool,
     payload: PropTypes.array,
     label: PropTypes.string,
   };
@@ -25,7 +25,7 @@ class CustomTooltip extends Component {
         <p className={css.labelError}>{`${payload[3].name}: ${payload[3].value}`}</p>
       </div>
     );
-  }
-}
+  };
+};
 
 export default CustomTooltip;
