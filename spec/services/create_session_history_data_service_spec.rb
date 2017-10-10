@@ -23,18 +23,24 @@ describe CreateSessionHistoryDataService do
   it 'breakes perform if given file does not exist' do
     file = Rails.root.join('spec', 'fixtures', 'files', 'csv', 'some_absent_file.csv')
 
-    expect(described_class.new(file).perform).to eq(nil)
+    described_class.new(file).perform
+
+    expect(History.count).to eq(0)
   end
 
   it 'breakes perform if given file is not csv' do
     file = Rails.root.join('spec', 'factories', 'histories.rb')
 
-    expect(described_class.new(file).perform).to eq(nil)
+    described_class.new(file).perform
+
+    expect(History.count).to eq(0)
   end
 
   it 'breakes perform if given csv file has no headers' do
     file = Rails.root.join('spec', 'fixtures', 'files', 'csv', 'without_headers.csv')
 
-    expect(described_class.new(file).perform).to eq([])
+    described_class.new(file).perform
+
+    expect(History.count).to eq(0)
   end
 end

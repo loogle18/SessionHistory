@@ -15,15 +15,11 @@ class CreateSessionHistoryDataService
   end
 
   def perform
-    histories = []
-
     return unless pathname.exist? && File.extname(pathname) == CSV_EXTENSION
 
     CSV.foreach(pathname, headers: true, header_converters: [:symbol]) do |row|
-      histories << create_history(row) if (row.headers & NEEDED_HEADERS).size == NEEDED_HEADERS.size
+      create_history(row) if (row.headers & NEEDED_HEADERS).size == NEEDED_HEADERS.size
     end
-
-    histories
   end
 
   private
