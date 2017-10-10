@@ -36,7 +36,7 @@ describe('CustomTooltip', () => {
     props.payload[0].payload.is_abnormal = true
     const customTooltip = shallow(<CustomTooltip {...props}/>)
 
-    assert.include(customTooltip.text(), '12.08.14 Has abnormal failed builds.')
+    assert.include(customTooltip.text(), '12.08.14 - Has abnormal failed builds.')
   });
 
   const getDefaultProps = () => {

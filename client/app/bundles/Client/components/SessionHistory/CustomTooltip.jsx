@@ -14,7 +14,7 @@ class CustomTooltip extends Component {
 
     if(!active) return null
 
-    const dataText = payload[0].payload.is_abnormal ? label + ' Has abnormal failed builds.' : label
+    const dataText = payload[0].payload.is_abnormal ? label + ' - Has abnormal failed builds.' : label
 
     return (
       <div className={css.customTooltip}>
