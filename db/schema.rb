@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171007174332) do
+ActiveRecord::Schema.define(version: 20171010010616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20171007174332) do
   create_table "histories", force: :cascade do |t|
     t.integer "session_id", null: false
     t.string "started_by", null: false
-    t.integer "summary_status", null: false
+    t.string "summary_status", null: false
     t.float "duration"
     t.float "worker_time"
     t.integer "bundle_time"
