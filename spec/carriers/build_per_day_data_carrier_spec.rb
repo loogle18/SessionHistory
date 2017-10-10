@@ -25,4 +25,34 @@ describe BuildPerDayDataCarrier do
 
     expect(method_result).to eq(expected_result)
   end
+
+  context 'is_abnormal' do
+    histories = History.all
+
+    it 'returns false if there are no enough failed or error builds and there no these builds one after another' do
+      statuses_array = ['failed', 'passed', 'stopped', 'error', 'passed', 'passed']
+
+      expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(false)
+    end
+
+    it 'returns true if there are enough failed or error builds' do
+      statuses_array = ['failed', 'passed', 'stopped', 'error', 'passed', 'failed']
+
+      expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
+    end
+
+    it 'returns true if failed or error builds go one after another' do
+      statuses_array = ['stopped', 'passed', 'failed', 'error', 'stopped', 'passed']
+      expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
+
+      statuses_array = ['error', 'failed', 'stopped', 'passed', 'stopped', 'passed']
+      expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
+
+      statuses_array = ['failed', 'failed', 'stopped', 'passed', 'stopped', 'passed']
+      expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
+
+      statuses_array = ['passed', 'passed', 'stopped', 'passed', 'error', 'error']
+      expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
+    end
+  end
 end
