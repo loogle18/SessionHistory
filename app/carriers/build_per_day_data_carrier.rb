@@ -1,4 +1,6 @@
 class BuildPerDayDataCarrier
+  FAILED_ONE_BY_ONE_PATTERN = /failed failed|error error|failed error|error failed/.freeze
+
   attr_reader :histories
 
   def initialize(histories)
@@ -8,9 +10,7 @@ class BuildPerDayDataCarrier
   def get_builds_per_day_data
     histories_grouped_by_day.each_with_object({}) do |(day, histories_array), data|
       statuses_array = histories_array.pluck(:summary_status)
-      is_abnormal = calculate_is_abnormal(statuses_array.count('failed'),
-                                          statuses_array.count('error'),
-                                          statuses_array.count)
+      is_abnormal = is_abnormal(statuses_array)
 
       if data[day]
         data[day][:date] = day
@@ -36,11 +36,15 @@ class BuildPerDayDataCarrier
 
   private
 
-  def calculate_is_abnormal(failed, error, count)
-    (Float(failed) + Float(error)) / count >= 0.5
+  def is_abnormal(statuses_array)
+    failed = statuses_array.count('failed')
+    error = statuses_array.count('error')
+    has_more_than_half_failed_builds = (Float(failed) + Float(error)) / statuses_array.count >= 0.5
+    has_failed_or_error_builds_one_by_one = statuses_array.join(' ') =~ FAILED_ONE_BY_ONE_PATTERN
+    has_more_than_half_failed_builds || !!has_failed_or_error_builds_one_by_one
   end
 
   def histories_grouped_by_day
-    histories.group_by{ |history| history.created_at.strftime("%d.%m.%y") }
+    histories.group_by{ |history| history.created_at.strftime('%d.%m.%y') }
   end
 end
