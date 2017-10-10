@@ -29,7 +29,7 @@ class CreateSessionHistoryDataService
     history.update!(
       started_by: row[:started_by],
       created_at: row[:created_at],
-      summary_status: row[:summary_status],
+      summary_status: History::SUMMARY_STATUS_NAME_TO_CODE[row[:summary_status]],
       duration: row[:duration],
       worker_time: row[:worker_time],
       bundle_time: row[:bundle_time],

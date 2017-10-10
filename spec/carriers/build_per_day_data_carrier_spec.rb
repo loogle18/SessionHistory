@@ -12,10 +12,10 @@ describe BuildPerDayDataCarrier do
   end
 
   it 'builds data per day with date, summary_status count and duration sum' do
-    FactoryGirl.create_list(:history, 2, created_at: '2014-10-27 03:11:45 UTC', summary_status: 'error', duration: 350.5)
-    FactoryGirl.create_list(:history, 2, created_at: '2014-09-10 05:38:55 UTC', summary_status: 'passed', duration: 114.25)
-    FactoryGirl.create(:history, created_at: '2014-09-10 02:18:24 UTC', summary_status: 'stopped', duration: 212.0)
-    FactoryGirl.create(:history, created_at: '2014-09-10 08:19:07 UTC', summary_status: 'failed', duration: 412.761)
+    FactoryGirl.create_list(:history, 2, created_at: '2014-10-27 03:11:45 UTC', summary_status: 3, duration: 350.5)
+    FactoryGirl.create_list(:history, 2, created_at: '2014-09-10 05:38:55 UTC', summary_status: 0, duration: 114.25)
+    FactoryGirl.create(:history, created_at: '2014-09-10 02:18:24 UTC', summary_status: 1, duration: 212.0)
+    FactoryGirl.create(:history, created_at: '2014-09-10 08:19:07 UTC', summary_status: 2, duration: 412.761)
 
     method_result = described_class.new(History.ordered_asc_by_create_at).get_builds_per_day_data
     expected_result = [
@@ -30,28 +30,28 @@ describe BuildPerDayDataCarrier do
     histories = History.all
 
     it 'returns false if there are no enough failed or error builds and there no these builds one after another' do
-      statuses_array = ['failed', 'passed', 'stopped', 'error', 'passed', 'passed']
+      statuses_array = [2, 0, 1, 3, 0, 0]
 
       expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(false)
     end
 
     it 'returns true if there are enough failed or error builds' do
-      statuses_array = ['failed', 'passed', 'stopped', 'error', 'passed', 'failed']
+      statuses_array = [2, 0, 1, 3, 0, 2]
 
       expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
     end
 
     it 'returns true if failed or error builds go one after another' do
-      statuses_array = ['stopped', 'passed', 'failed', 'error', 'stopped', 'passed']
+      statuses_array = [1, 0, 2, 3, 1, 0]
       expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
 
-      statuses_array = ['error', 'failed', 'stopped', 'passed', 'stopped', 'passed']
+      statuses_array = [3, 2, 1, 0, 1, 0]
       expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
 
-      statuses_array = ['failed', 'failed', 'stopped', 'passed', 'stopped', 'passed']
+      statuses_array = [2, 2, 1, 0, 1, 0]
       expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
 
-      statuses_array = ['passed', 'passed', 'stopped', 'passed', 'error', 'error']
+      statuses_array = [0, 0, 1, 0, 3, 3]
       expect(described_class.new(histories).send(:is_abnormal, statuses_array)).to be(true)
     end
   end
