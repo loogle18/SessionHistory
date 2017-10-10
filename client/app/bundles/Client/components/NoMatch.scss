@@ -1,0 +1,19 @@
+.wrapper {
+  align-items: center;
+  display: flex;
+  font-size: 26px;
+  height: 100vh;
+  justify-content: center;
+}
+
+.link {
+  white-space: pre;
+
+  &,
+  &:visited,
+  &:hover,
+  &:active {
+    color: #007fff;
+    text-decoration: none;
+  }
+}
