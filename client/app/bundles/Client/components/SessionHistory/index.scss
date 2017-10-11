@@ -37,3 +37,15 @@
 .labelError {
   color: #212121;
 }
+
+.link {
+  white-space: pre;
+
+  &,
+  &:visited,
+  &:hover,
+  &:active {
+    color: #007fff;
+    text-decoration: none;
+  }
+}

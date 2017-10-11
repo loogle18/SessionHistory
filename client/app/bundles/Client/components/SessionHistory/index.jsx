@@ -23,11 +23,9 @@ class SessionHistory extends Component {
       <div>
         <SummaryStatusChart data={data}/>
         <div className={css.abnormalBuildsDescription}>
-          Day has abnormal failed builds if two or more builds with statuses
-          "failed" or "error" have failed one after another.
-          <p>
-            Or failed and error builds count are make 50% or more from all builds count.
-          </p>
+          Day has abnormal status is failed builds count in that day more than average value plus
+          <a className={css.link} href='https://en.wikipedia.org/wiki/Standard_deviation'> standard deviation </a>
+          times two.
           <p>
             Date in the chart above that has abnormal failed builds are filled in
             <span style={{color: '#dd275a'}}> red </span>

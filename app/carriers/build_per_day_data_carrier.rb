@@ -1,5 +1,5 @@
 class BuildPerDayDataCarrier
-  FAILED_ONE_BY_ONE_PATTERN = /2 2|3 3|2 3|3 2/.freeze
+  LOCAL_ANOMALY = 2.freeze
 
   attr_reader :histories
 
@@ -9,7 +9,7 @@ class BuildPerDayDataCarrier
 
   def get_builds_per_day_data
     histories_grouped_by_day.each_with_object({}) do |(day, histories_array), data|
-      statuses_array = histories_array.pluck(:summary_status)
+      statuses_array = histories_array.map(&:summary_status)
       is_abnormal = is_abnormal(statuses_array)
 
       if data[day]
@@ -36,15 +36,37 @@ class BuildPerDayDataCarrier
 
   private
 
+  def statuses_per_day
+    histories_grouped_by_day.values.map { |day_array| day_array.map(&:summary_status) }
+  end
+
   def is_abnormal(statuses_array)
-    failed = statuses_array.count(History::FAILED_STATUS_CODE)
-    error = statuses_array.count(History::ERROR_STATUS_CODE)
-    has_more_than_half_failed_builds = (Float(failed) + Float(error)) / statuses_array.count >= 0.5
-    has_failed_or_error_builds_one_by_one = statuses_array.join(' ') =~ FAILED_ONE_BY_ONE_PATTERN
-    has_more_than_half_failed_builds || !!has_failed_or_error_builds_one_by_one
+    return false unless statuses_array.include?(History::FAILED_STATUS_CODE)
+
+    failed_builds_count = statuses_array.count(History::FAILED_STATUS_CODE)
+
+    failed_builds_count >= avg_failed_builds + LOCAL_ANOMALY * standard_deviation_for_failed_builds_per_day
+  end
+
+  def standard_deviation_for_failed_builds_per_day
+    @_standard_deviation ||= begin
+      failed_builds_per_day = statuses_per_day.map { |day| day.count(History::FAILED_STATUS_CODE) }
+      deviations = failed_builds_per_day.map { |day| (day - avg_failed_builds).abs**2 }
+      variance = deviations.sum / deviations.size
+
+      Math.sqrt(variance)
+    end
+  end
+
+  def failed_builds_per_day
+    @_failed_builds_per_day ||= statuses_per_day.map { |day| day.count(History::FAILED_STATUS_CODE) }
+  end
+
+  def avg_failed_builds
+    @_avg_failed_builds ||= Float(failed_builds_per_day.sum) / failed_builds_per_day.size
   end
 
   def histories_grouped_by_day
-    histories.group_by{ |history| history.created_at.strftime('%d.%m.%y') }
+    @_histories_grouped_by_day ||= histories.group_by{ |history| history.created_at.strftime('%d.%m.%y') }
   end
 end
