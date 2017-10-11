@@ -49,8 +49,7 @@ class BuildPerDayDataCarrier
   end
 
   def standard_deviation_for_failed_builds_per_day
-    @_standard_deviation ||= begin
-      failed_builds_per_day = statuses_per_day.map { |day| day.count(History::FAILED_STATUS_CODE) }
+    @_standard_deviation_for_failed_builds_per_day ||= begin
       deviations = failed_builds_per_day.map { |day| (day - avg_failed_builds).abs**2 }
       variance = deviations.sum / deviations.size
 

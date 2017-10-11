@@ -23,7 +23,7 @@ class SessionHistory extends Component {
       <div>
         <SummaryStatusChart data={data}/>
         <div className={css.abnormalBuildsDescription}>
-          Day has abnormal status is failed builds count in that day more than average value plus
+          Day has abnormal status if failed builds count in that day more or equal to average value plus
           <a className={css.link} href='https://en.wikipedia.org/wiki/Standard_deviation'> standard deviation </a>
           times two.
           <p>
